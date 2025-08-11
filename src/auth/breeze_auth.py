@@ -24,16 +24,11 @@ class BreezeAuth:
         self.base_url = config.breeze_base_url
         self.api_key = config.breeze_api_key
         self.secret_key = config.breeze_secret_key
-        self.account_id = config.breeze_account_id
     
-    def generate_session(self, user_id: str, password: str) -> Tuple[bool, str]:
+    def generate_session(self) -> Tuple[bool, str]:
         """
-        Generate session token using user credentials.
+        Generate session token using API credentials.
         
-        Args:
-            user_id: ICICI Direct user ID
-            password: ICICI Direct password
-            
         Returns:
             Tuple of (success: bool, message: str)
         """
@@ -43,8 +38,6 @@ class BreezeAuth:
             payload = {
                 "AppKey": self.api_key,
                 "AppSecret": self.secret_key,
-                "UserId": user_id,
-                "Password": password,
                 "Source": "API"
             }
             

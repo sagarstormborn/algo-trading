@@ -13,7 +13,7 @@ A Python-based algorithmic trading system using ICICI Breeze API for automated t
 
 - Python 3.12+ (recommended)
 - ICICI Direct trading account
-- ICICI Breeze API credentials (API Key, Secret Key)
+- ICICI Breeze API credentials (API Key, Secret Key, Session Token)
 - Git
 - Conda (recommended) or pip
 
@@ -40,7 +40,7 @@ pip install -r requirements.txt
 
 4. **Configure environment variables:**
 ```bash
-# Edit the .env file with your credentials
+# Edit the .env file with your API credentials
 nano .env  # or use your preferred editor
 ```
 
@@ -65,9 +65,8 @@ pip install -r requirements.txt
 
 4. **Configure environment variables:**
 ```bash
-# Copy the .env file and update with your credentials
-cp .env.example .env  # If you have an example file
-# Or edit the existing .env file
+# Edit the .env file with your API credentials
+nano .env  # or use your preferred editor
 ```
 
 ## 🔧 Configuration
@@ -83,9 +82,6 @@ BREEZE_SESSION_TOKEN=your_session_token_here
 # API Endpoints
 BREEZE_BASE_URL=https://api.icicidirect.com/breezeapi/v1
 
-# Account Details
-BREEZE_ACCOUNT_ID=your_account_id_here
-
 # Environment
 ENVIRONMENT=development
 ```
@@ -95,7 +91,8 @@ ENVIRONMENT=development
 1. Log in to your ICICI Direct account
 2. Go to API section in your account
 3. Generate API Key and Secret Key
-4. Note down your Account ID
+4. Generate Session Token (valid for 24 hours)
+5. Update your `.env` file with these credentials
 
 ## 📁 Project Structure
 
@@ -143,7 +140,7 @@ python test_breeze_api.py
 
 This will test:
 - Configuration loading
-- Authentication
+- Authentication using API credentials
 - Account balance retrieval
 - Portfolio holdings
 - Open orders
@@ -157,8 +154,8 @@ from src.api.breeze_client import BreezeClient
 # Initialize client
 client = BreezeClient()
 
-# Authenticate
-if client.authenticate("your_user_id", "your_password"):
+# Authenticate using API credentials (no user ID/password needed)
+if client.authenticate():
     
     # Get account balance
     balance = client.get_account_balance()
@@ -179,12 +176,13 @@ if client.authenticate("your_user_id", "your_password"):
 ## 🔒 Security
 
 - **Environment Variables**: All sensitive data is stored in `.env` file (not committed to git)
+- **API Credentials Only**: No need to store user ID or password
 - **Session Management**: Automatic session token handling with expiry
 - **Secure Headers**: Proper authentication headers for all API requests
 
 ## 📊 API Endpoints Supported
 
-- **Authentication**: Session generation and management
+- **Authentication**: Session generation and management using API credentials
 - **Account Balance**: Fund details and margin information
 - **Portfolio**: Current holdings and positions
 - **Orders**: Open orders, order history, and order management

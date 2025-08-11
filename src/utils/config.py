@@ -19,7 +19,6 @@ class Config:
         self.breeze_secret_key = os.getenv('BREEZE_SECRET_KEY')
         self.breeze_session_token = os.getenv('BREEZE_SESSION_TOKEN')
         self.breeze_base_url = os.getenv('BREEZE_BASE_URL', 'https://api.icicidirect.com/breezeapi/v1')
-        self.breeze_account_id = os.getenv('BREEZE_ACCOUNT_ID')
         self.environment = os.getenv('ENVIRONMENT', 'development')
     
     def validate_config(self) -> bool:
@@ -27,8 +26,7 @@ class Config:
         required_fields = [
             'breeze_api_key',
             'breeze_secret_key', 
-            'breeze_session_token',
-            'breeze_account_id'
+            'breeze_session_token'
         ]
         
         missing_fields = []
@@ -54,7 +52,6 @@ class Config:
         """Convert configuration to dictionary (excluding sensitive data)."""
         return {
             'breeze_base_url': self.breeze_base_url,
-            'breeze_account_id': self.breeze_account_id,
             'environment': self.environment
         }
 

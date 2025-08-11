@@ -6,7 +6,6 @@ Tests authentication, account balance, portfolio, and open orders.
 import sys
 import os
 import json
-from getpass import getpass
 
 # Add src to path
 sys.path.append(os.path.join(os.path.dirname(__file__), 'src'))
@@ -46,21 +45,13 @@ def test_configuration():
         return False
 
 def test_authentication():
-    """Test authentication with user credentials."""
+    """Test authentication with API credentials."""
     print_separator("Testing Authentication")
-    
-    # Get user credentials
-    user_id = input("Enter your ICICI Direct User ID: ").strip()
-    password = getpass("Enter your ICICI Direct Password: ").strip()
-    
-    if not user_id or not password:
-        print("❌ User ID and password are required")
-        return False
     
     # Initialize client and authenticate
     client = BreezeClient()
     
-    if client.authenticate(user_id, password):
+    if client.authenticate():
         print("✅ Authentication successful!")
         return client
     else:
@@ -122,6 +113,7 @@ def main():
     """Main test function."""
     print("🚀 ICICI Breeze API Test Suite")
     print("This script will test the basic functionality of the Breeze API integration.")
+    print("Make sure your .env file contains BREEZE_API_KEY, BREEZE_SECRET_KEY, and BREEZE_SESSION_TOKEN")
     
     # Test 1: Configuration
     if not test_configuration():
@@ -131,7 +123,7 @@ def main():
     # Test 2: Authentication
     client = test_authentication()
     if not client:
-        print("\n❌ Authentication test failed. Please check your credentials.")
+        print("\n❌ Authentication test failed. Please check your API credentials.")
         return
     
     try:

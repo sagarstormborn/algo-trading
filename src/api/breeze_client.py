@@ -21,20 +21,15 @@ class BreezeClient:
         """Initialize Breeze API client."""
         self.auth = BreezeAuth()
         self.base_url = config.breeze_base_url
-        self.account_id = config.breeze_account_id
     
-    def authenticate(self, user_id: str, password: str) -> bool:
+    def authenticate(self) -> bool:
         """
-        Authenticate with ICICI Breeze API.
+        Authenticate with ICICI Breeze API using API credentials.
         
-        Args:
-            user_id: ICICI Direct user ID
-            password: ICICI Direct password
-            
         Returns:
             bool: True if authentication successful
         """
-        success, message = self.auth.generate_session(user_id, password)
+        success, message = self.auth.generate_session()
         if success:
             print("✅ Authentication successful!")
         else:
