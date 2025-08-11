@@ -1,0 +1,5 @@
+This is a test file to verify our Git and GitHub setup is working correctly!
+
+Created by: Sagar Parmar
+Date: $(date)
+Repository: https://github.com/sagarstormborn/algo-trading
