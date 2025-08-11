@@ -27,37 +27,48 @@ class BreezeAuth:
     
     def generate_session(self) -> Tuple[bool, str]:
         """
-        Generate session token using API credentials.
+        Generate session token using CustomerDetails API.
         
         Returns:
             Tuple of (success: bool, message: str)
         """
         try:
-            url = f"{self.base_url}/authenticate"
+            # Use CustomerDetails API to get session token
+            url = f"{self.base_url}/customerdetails"
             
             payload = {
-                "AppKey": self.api_key,
-                "AppSecret": self.secret_key,
-                "Source": "API"
+                "SessionToken": config.breeze_session_token,
+                "AppKey": self.api_key
             }
             
             headers = {
                 'Content-Type': 'application/json'
             }
             
-            response = requests.post(url, json=payload, headers=headers)
+            response = requests.get(url, headers=headers, data=json.dumps(payload))
             
             if response.status_code == 200:
                 data = response.json()
-                if data.get('Status') == 200:
-                    self.session_token = data.get('Success', {}).get('session_token')
-                    # Session typically expires in 24 hours
-                    self.session_expiry = datetime.now() + timedelta(hours=23)
-                    
-                    # Update config with session token
-                    config.breeze_session_token = self.session_token
-                    
-                    return True, "Session generated successfully"
+                if data.get('Status') == 200 and 'Success' in data:
+                    # Extract session token from response
+                    session_token = data.get('Success', {}).get('session_token')
+                    if session_token:
+                        self.session_token = session_token
+                        # Session typically expires in 24 hours
+                        self.session_expiry = datetime.now() + timedelta(hours=23)
+                        
+                        # Update config with session token
+                        config.breeze_session_token = self.session_token
+                        
+                        return True, "Session generated successfully"
+                    else:
+                        # If no session token in response, use the one from config
+                        if config.breeze_session_token:
+                            self.session_token = config.breeze_session_token
+                            self.session_expiry = datetime.now() + timedelta(hours=23)
+                            return True, "Using existing session token"
+                        else:
+                            return False, "No session token available"
                 else:
                     return False, f"Authentication failed: {data.get('Error', 'Unknown error')}"
             else:

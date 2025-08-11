@@ -20,6 +20,13 @@ class Config:
         self.breeze_session_token = os.getenv('BREEZE_SESSION_TOKEN')
         self.breeze_base_url = os.getenv('BREEZE_BASE_URL', 'https://api.icicidirect.com/breezeapi/v1')
         self.environment = os.getenv('ENVIRONMENT', 'development')
+        
+        # TimescaleDB configuration
+        self.timescaledb_host = os.getenv('TIMESCALEDB_HOST', 'localhost')
+        self.timescaledb_port = os.getenv('TIMESCALEDB_PORT', 5432)
+        self.timescaledb_database = os.getenv('TIMESCALEDB_DATABASE', 'algo_trading')
+        self.timescaledb_user = os.getenv('TIMESCALEDB_USER', 'algo_user')
+        self.timescaledb_password = os.getenv('TIMESCALEDB_PASSWORD', 'algo_trading_db')
     
     def validate_config(self) -> bool:
         """Validate that all required configuration is present."""
@@ -48,11 +55,18 @@ class Config:
             'Authorization': f'Bearer {self.breeze_session_token}'
         }
     
+    def get(self, key: str, default=None):
+        """Get configuration value by key."""
+        return getattr(self, key, default)
+    
     def to_dict(self) -> Dict[str, Any]:
         """Convert configuration to dictionary (excluding sensitive data)."""
         return {
             'breeze_base_url': self.breeze_base_url,
-            'environment': self.environment
+            'environment': self.environment,
+            'timescaledb_host': self.timescaledb_host,
+            'timescaledb_port': self.timescaledb_port,
+            'timescaledb_database': self.timescaledb_database
         }
 
 # Global configuration instance

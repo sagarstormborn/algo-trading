@@ -80,7 +80,7 @@ BREEZE_SECRET_KEY=your_secret_key_here
 BREEZE_SESSION_TOKEN=your_session_token_here
 
 # API Endpoints
-BREEZE_BASE_URL=https://api.icicidirect.com/breezeapi/v1
+BREEZE_BASE_URL=https://api.icicidirect.com/breezeapi/api/v1
 
 # Environment
 ENVIRONMENT=development
@@ -139,12 +139,17 @@ python test_breeze_api.py
 ```
 
 This will test:
-- Configuration loading
-- Authentication using API credentials
-- Account balance retrieval
-- Portfolio holdings
-- Open orders
-- Order history
+- ✅ Configuration loading
+- ✅ Authentication using API credentials
+- ✅ Account balance retrieval
+- ⚠️ Portfolio holdings (returns "No Data Found" if no holdings)
+- ⚠️ Open orders (temporarily disabled due to API checksum requirements)
+- ⚠️ Order history (temporarily disabled due to API checksum requirements)
+
+### Current Status
+- **✅ Working**: Authentication, Account Balance, Session Management
+- **⚠️ Limited**: Portfolio (works but may show "No Data Found" if no holdings)
+- **🔧 In Progress**: Orders and Trades (requires additional API endpoint configuration)
 
 ### Using the API Client
 
