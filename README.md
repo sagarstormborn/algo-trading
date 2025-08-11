@@ -11,12 +11,40 @@ A Python-based algorithmic trading system using ICICI Breeze API for automated t
 
 ## 📋 Prerequisites
 
-- Python 3.8+
+- Python 3.12+ (recommended)
 - ICICI Direct trading account
 - ICICI Breeze API credentials (API Key, Secret Key)
 - Git
+- Conda (recommended) or pip
 
 ## 🛠️ Installation
+
+### Option 1: Using Conda (Recommended)
+
+1. **Clone the repository:**
+```bash
+git clone https://github.com/sagarstormborn/algo-trading.git
+cd algo-trading
+```
+
+2. **Create and activate conda environment:**
+```bash
+conda create -n algo-trading python=3.12 -y
+conda activate algo-trading
+```
+
+3. **Install dependencies:**
+```bash
+pip install -r requirements.txt
+```
+
+4. **Configure environment variables:**
+```bash
+# Edit the .env file with your credentials
+nano .env  # or use your preferred editor
+```
+
+### Option 2: Using Virtual Environment
 
 1. **Clone the repository:**
 ```bash
@@ -92,6 +120,18 @@ algo-trading/
 ```
 
 ## 🚀 Usage
+
+### Environment Setup
+
+**For Conda users:**
+```bash
+conda activate algo-trading
+```
+
+**For Virtual Environment users:**
+```bash
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+```
 
 ### Testing the API Integration
 
